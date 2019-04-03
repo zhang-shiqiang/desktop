@@ -62,8 +62,10 @@ export async function push(
     args.push('--force-with-lease')
   }
 
-  const expectedErrors = new Set<DugiteError>(AuthenticationErrors)
-  expectedErrors.add(DugiteError.ProtectedBranchForcePush)
+  const expectedErrors = new Set<DugiteError>([
+    ...AuthenticationErrors,
+    DugiteError.ProtectedBranchForcePush,
+  ])
 
   let opts: IGitExecutionOptions = {
     env: envForAuthentication(account),
@@ -106,7 +108,7 @@ export async function push(
 
   const result = await git(args, repository.path, 'push', opts)
 
-  if (result.gitErrorDescription) {
+  if (result.gitError) {
     throw new GitError(result, args)
   }
 }
