@@ -1,3 +1,4 @@
+import { GitError as DugiteError } from 'dugite'
 import {
   git,
   GitError,
@@ -60,9 +61,15 @@ export async function pull(
   remote: string,
   progressCallback?: (progress: IPullProgress) => void
 ): Promise<void> {
+  const expectedErrors = new Set<DugiteError>([
+    ...AuthenticationErrors,
+    DugiteError.RebaseConflicts,
+    DugiteError.MergeConflicts,
+  ])
+
   let opts: IGitExecutionOptions = {
     env: envForAuthentication(account),
-    expectedErrors: AuthenticationErrors,
+    expectedErrors,
   }
 
   if (progressCallback) {
@@ -99,7 +106,7 @@ export async function pull(
   const args = await getPullArgs(repository, remote, account, progressCallback)
   const result = await git(args, repository.path, 'pull', opts)
 
-  if (result.gitErrorDescription) {
+  if (result.gitError) {
     throw new GitError(result, args)
   }
 }
