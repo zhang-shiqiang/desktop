@@ -26,7 +26,6 @@ import { fatalError } from '../../lib/fatal-error'
 import { isMergeHeadSet } from './merge'
 import { getBinaryPaths } from './diff'
 import { getRebaseInternalState } from './rebase'
-import { enablePullWithRebase } from '../feature-flag'
 import { RebaseInternalState } from '../../models/rebase'
 
 /**
@@ -196,20 +195,14 @@ export async function getStatus(
   const headers = parsed.filter(isStatusHeader)
   const entries = parsed.filter(isStatusEntry)
 
-  let conflictDetails: ConflictFilesDetails
-
   const mergeHeadFound = await isMergeHeadSet(repository)
   const rebaseInternalState = await getRebaseInternalState(repository)
 
-  if (enablePullWithRebase()) {
-    conflictDetails = await getConflictDetails(
-      repository,
-      mergeHeadFound,
-      rebaseInternalState
-    )
-  } else {
-    conflictDetails = await getConflictDetails(repository, mergeHeadFound, null)
-  }
+  const conflictDetails = await getConflictDetails(
+    repository,
+    mergeHeadFound,
+    rebaseInternalState
+  )
 
   // Map of files keyed on their paths.
   const files = entries.reduce(

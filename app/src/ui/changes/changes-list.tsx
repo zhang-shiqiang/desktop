@@ -35,7 +35,7 @@ import { basename } from 'path'
 import { ICommitContext } from '../../models/commit'
 import { RebaseConflictState } from '../../lib/app-state'
 import { ContinueRebase } from './continue-rebase'
-import { enablePullWithRebase, enableStashing } from '../../lib/feature-flag'
+import { enableStashing } from '../../lib/feature-flag'
 import { ListRow } from '../lib/list/list-row'
 import { Octicon, OcticonSymbol } from '../octicons'
 import { FocusContainer } from '../lib/focus-container'
@@ -437,7 +437,7 @@ export class ChangesList extends React.Component<
   }
 
   private renderCommitMessageForm = (): JSX.Element => {
-    if (this.props.rebaseConflictState !== null && enablePullWithRebase()) {
+    if (this.props.rebaseConflictState !== null) {
       return (
         <ContinueRebase
           dispatcher={this.props.dispatcher}

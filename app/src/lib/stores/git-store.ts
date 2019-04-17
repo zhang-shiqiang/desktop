@@ -77,7 +77,7 @@ import { formatCommitMessage } from '../format-commit-message'
 import { GitAuthor } from '../../models/git-author'
 import { IGitAccount } from '../../models/git-account'
 import { BaseStore } from './base-store'
-import { enablePullWithRebase, enableStashing } from '../feature-flag'
+import { enableStashing } from '../feature-flag'
 import { getDesktopStashEntries, getStashedFiles } from '../git/stash'
 import { IStashEntry, StashedChangesLoadStates } from '../../models/stash-entry'
 
@@ -274,11 +274,7 @@ export class GitStore extends BaseStore {
 
     this.refreshDefaultBranch()
     this.refreshRecentBranches(recentBranchNames)
-
-    // no need to query Git config if this isn't displayed in the UI
-    if (enablePullWithRebase()) {
-      this.checkPullWithRebase()
-    }
+    this.checkPullWithRebase()
 
     const commits = this._allBranches.map(b => b.tip)
 
