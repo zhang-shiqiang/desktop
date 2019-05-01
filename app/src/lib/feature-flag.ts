@@ -85,3 +85,8 @@ export function enableRebaseDialog(): boolean {
 export function enableStashing(): boolean {
   return enableBetaFeatures()
 }
+
+/** Should the app try the new experimental "rebase conflict" detection? */
+export function enableRebaseConflictDetection(): boolean {
+  return enableDevelopmentFeatures()
+}
