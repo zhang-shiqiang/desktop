@@ -17,6 +17,7 @@ import {
   IStashEntry,
   StashedChangesLoadStates,
 } from '../../../src/models/stash-entry'
+import { generateString } from '../../helpers/random-data'
 
 describe('git/stash', () => {
   describe('getDesktopStashEntries', () => {
@@ -257,7 +258,7 @@ describe('git/stash', () => {
         expect(entries.length).toBe(1)
 
         const readme = path.join(repository.path, 'README.md')
-        await FSE.appendFile(readme, Math.random()) // eslint-disable-line insecure-random
+        await FSE.appendFile(readme, generateString())
         await GitProcess.exec(
           ['commit', '-am', 'later commit'],
           repository.path
@@ -285,7 +286,7 @@ describe('git/stash', () => {
         expect(entries.length).toBe(1)
 
         const readme = path.join(repository.path, 'README.md')
-        await FSE.writeFile(readme, Math.random()) // eslint-disable-line insecure-random
+        await FSE.writeFile(readme, generateString())
 
         const entryToApply = entries[0]
         await expect(
@@ -325,6 +326,6 @@ async function generateTestStashEntry(
 ): Promise<void> {
   const message = simulateDesktopEntry ? null : 'Should get filtered'
   const readme = path.join(repository.path, 'README.md')
-  await FSE.appendFile(readme, Math.random()) // eslint-disable-line insecure-random
+  await FSE.appendFile(readme, generateString())
   await stash(repository, branchName, message)
 }
