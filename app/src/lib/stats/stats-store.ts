@@ -94,6 +94,7 @@ const DefaultDailyMeasures: IDailyMeasures = {
   stashEntriesCreatedOutsideDesktop: 0,
   errorWhenSwitchingBranchesWithUncommmittedChanges: 0,
   rebaseCurrentBranchMenuCount: 0,
+  commitMadeToProtectedBranch: 0,
 }
 
 interface IOnboardingStats {
