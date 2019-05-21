@@ -2391,9 +2391,7 @@ export class AppStore extends TypedBaseStore<IAppState> {
             )
 
             if (isProtected) {
-              log.debug(
-                `[_commitIncludedChanges] the upstream ref '${upstreamWithoutRemote}' is protected by the GitHub API`
-              )
+              this.statsStore.recordCommitMadeToProtectedBranch()
             }
           }
         }
