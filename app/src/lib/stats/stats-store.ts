@@ -95,6 +95,7 @@ const DefaultDailyMeasures: IDailyMeasures = {
   errorWhenSwitchingBranchesWithUncommmittedChanges: 0,
   rebaseCurrentBranchMenuCount: 0,
   commitsToProtectedBranch: 0,
+  commitWithBranchProtectionsEnabled: false,
 }
 
 interface IOnboardingStats {
