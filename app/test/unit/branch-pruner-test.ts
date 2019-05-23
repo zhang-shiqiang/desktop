@@ -83,7 +83,7 @@ describe('BranchPruner', () => {
     await branchPruner.start()
     const branchesAfterPruning = await getBranchesFromGit(repo)
 
-    const expectedPrunedBranches = ['not-deleted-branch-1', 'deleted-branch-1']
+    const expectedPrunedBranches = ['deleted-branch-1']
 
     for (const branch of expectedPrunedBranches) {
       expect(branchesAfterPruning).not.toContain(branch)
